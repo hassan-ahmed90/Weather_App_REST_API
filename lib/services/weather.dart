@@ -3,7 +3,7 @@ import 'package:live_weather/services/location.dart';
 import 'package:live_weather/services/networking.dart';
 
 const apiKey = '376b126ca0f4fb505f04ab86f7264095';
-const openWeatherMapURL = 'https://api.openweathermap.org/data/2.5/weather';
+const openWeatherMapURL = '';
 
 Future<dynamic> getCityWeather(String cityName) async {
   NetworkHelper networkHelper = NetworkHelper(
