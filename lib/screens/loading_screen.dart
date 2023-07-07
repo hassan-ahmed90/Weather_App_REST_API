@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:live_weather/services/location.dart';
+import 'package:http/http.dart'as http;
+const apiKey = '376b126ca0f4fb505f04ab86f7264095';
 class LoadingScreen extends StatefulWidget {
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
@@ -7,29 +9,18 @@ class LoadingScreen extends StatefulWidget {
 
 class _LoadingScreenState extends State<LoadingScreen> {
   void getLocation() async {
-    try {
-      LocationPermission permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        // Permission denied
-        print('Location permission denied');
-        return;
-      }
-
-      Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.low,
-      );
-      print(position);
-    } catch (e) {
-      print('Error getting location: $e');
-    }
+    Location location = Location();
+    location.getCurrentLocation();
   }
 
-  // void getLocation()async{
-  //   Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-  //     print(position);
-  // }
+  void getData()async{
+    var response= await http.get(Uri.parse("https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid=$apiKey"));
+    print(response.body);
+
+  }
   @override
   Widget build(BuildContext context) {
+    getData();
     return Scaffold(
       body: Center(
         child: InkWell(
